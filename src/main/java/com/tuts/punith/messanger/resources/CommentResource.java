@@ -17,7 +17,7 @@ import com.tuts.punith.messanger.service.CommentService;
 
 @Path("/")
 @Consumes(MediaType.APPLICATION_JSON)
-@Produces(MediaType.APPLICATION_JSON)
+@Produces(value = { MediaType.APPLICATION_JSON, MediaType.TEXT_XML })
 public class CommentResource
 {
     CommentService commentService = new CommentService();

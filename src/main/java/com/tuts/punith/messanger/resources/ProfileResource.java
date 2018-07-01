@@ -17,7 +17,7 @@ import com.tuts.punith.messanger.service.ProfileService;
 
 @Path("/profiles")
 @Consumes(MediaType.APPLICATION_JSON)
-@Produces(MediaType.APPLICATION_JSON)
+@Produces(value = { MediaType.APPLICATION_JSON, MediaType.TEXT_XML })
 public class ProfileResource
 {
     ProfileService profileService = new ProfileService();

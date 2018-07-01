@@ -27,8 +27,12 @@ import com.tuts.punith.messanger.service.MessageService;
 @Produces(MediaType.APPLICATION_JSON)
 public class MessagesResource
 {
+    // Pass header Accept as text/xml while requesting the data in xml format or application/json for json format
+    // @Produces(value = { MediaType.APPLICATION_JSON, MediaType.TEXT_XML })
     MessageService messageService = new MessageService();
 
+    // Add a method with @Produces having MediaType as XML, instead of specifying both MediaType at class level, it
+    // applies to @Consumes as well
     @GET
     public List<Message> getMessages(@QueryParam("year") int year, @QueryParam("start") int start,
             @QueryParam("size") int size)
@@ -57,8 +61,7 @@ public class MessagesResource
         // use created(URI) method to send created status and the location of the URI, or use status(Status.CREATED) if
         // you don't want location info
 
-        return Response.created(uri)
-                .entity(messageService.addMessage(message)).build();
+        return Response.created(uri).entity(messageService.addMessage(message)).build();
     }
 
     @PUT
@@ -79,7 +82,7 @@ public class MessagesResource
 
     @GET
     @Path("/{messageId}")
-    public Message getMessage(@PathParam("messageId") long messageId)
+    public Message getMessage(@PathParam("messageId") long messageId, @Context UriInfo uriInfo)
     {
         Message message = messageService.getMessage(messageId);
 
@@ -88,7 +91,31 @@ public class MessagesResource
             throw new DataNotFoundException("Message with id " + messageId + " not found!");
         }
 
-        return messageService.getMessage(messageId);
+        message.addLink(getSelfUri(uriInfo, message), "self");
+        message.addLink(getProfileUri(uriInfo, message), "profile");
+        message.addLink(getCommentsUri(uriInfo, message), "comments");
+
+        return message;
+    }
+
+    private String getCommentsUri(UriInfo uriInfo, Message message)
+    {
+        return uriInfo.getBaseUriBuilder().path(MessagesResource.class)
+                .path(MessagesResource.class, "getCommentResource").path(CommentResource.class)
+                .resolveTemplate("messageId", message.getId()).build().toString();
+    }
+
+    private String getProfileUri(UriInfo uriInfo, Message message)
+    {
+        return uriInfo.getBaseUriBuilder().path(ProfileResource.class).path(message.getAuthor())
+                .build()
+                .toString();
+    }
+
+    private String getSelfUri(UriInfo uriInfo, Message message)
+    {
+        return uriInfo.getBaseUriBuilder().path(MessagesResource.class).path(Long.toString(message.getId())).build()
+                .toString();
     }
 
     // Sub Resources
