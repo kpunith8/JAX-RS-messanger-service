@@ -1,37 +1,19 @@
 package com.tuts.punith.messanger.model;
 
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
-
-@XmlRootElement
-public class Message
+public class Comment
 {
     private long id;
     private String message;
     private String author;
     private Date createdDate;
-    private Map<Long, Comment> comments = new HashMap<>();
 
-    @XmlTransient
-    public Map<Long, Comment> getComments()
-    {
-        return comments;
-    }
-
-    public void setComments(Map<Long, Comment> comments)
-    {
-        this.comments = comments;
-    }
-
-    public Message()
+    public Comment()
     {
     }
 
-    public Message(long id, String message, String author, Date createDate)
+    public Comment(long id, String message, String author, Date createDate)
     {
         this.id = id;
         this.message = message;
@@ -69,13 +51,13 @@ public class Message
         this.author = author;
     }
 
-    public Date getCreateDate()
+    public Date getCreatedDate()
     {
         return createdDate;
     }
 
-    public void setCreateDate(Date createDate)
+    public void setCreatedDate(Date createdDate)
     {
-        this.createdDate = createDate;
+        this.createdDate = createdDate;
     }
 }

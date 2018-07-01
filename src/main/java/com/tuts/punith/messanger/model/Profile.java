@@ -9,7 +9,7 @@ public class Profile
     private String profileName;
     private String firstName;
     private String lastName;
-    private Date createDate;
+    private Date createdDate;
 
     public Profile()
     {
@@ -22,7 +22,7 @@ public class Profile
         this.profileName = profileName;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.createDate = createDate;
+        this.createdDate = createDate;
     }
 
     public long getId()
@@ -77,11 +77,11 @@ public class Profile
 
     public Date getCreateDate()
     {
-        return createDate;
+        return createdDate;
     }
 
     public void setCreateDate(Date createDate)
     {
-        this.createDate = createDate;
+        this.createdDate = createDate;
     }
 }

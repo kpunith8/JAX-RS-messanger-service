@@ -3,20 +3,32 @@ package com.tuts.punith.messanger.service;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import com.tuts.punith.messanger.database.MessageDataBase;
+import com.tuts.punith.messanger.model.Comment;
 import com.tuts.punith.messanger.model.Message;
 
 public class MessageService
 {
     Map<Long, Message> messages = MessageDataBase.getMessages();
+    Map<Long, Comment> comments = new HashMap<>();
 
     public MessageService()
     {
         messages.put(1L, new Message(1, "Hi there!", "Punith", new Date()));
         messages.put(2L, new Message(2, "Hi! how are you?", "Punith", new Date()));
+
+        Comment comment1 = new Comment(1, "Good morning!", "Punith", new Date());
+        Comment comment2 = new Comment(2, "How is life!!", "Sahana", new Date());
+
+        comments.put(1L, comment1);
+        comments.put(2L, comment2);
+
+        messages.get(1L).setComments(comments);
+        messages.get(2L).setComments(comments);
     }
 
     public List<Message> getMessages()
